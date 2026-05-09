@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PET | Personal Terminal</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="pet-frame">
         <header>
@@ -13,6 +15,10 @@
             <div id="status-light" class="offline"></div>
             <div class="sync-text" id="sync-status">SYSTEM OFFLINE</div>
         </header>
+
+        <section id="chip-deck">
+            <div id="chip-container"></div>
+        </section>
 
         <main id="editor-container">
             <div id="editor" contenteditable="true" placeholder="JACK IN! ENTER DATA..."></div>
@@ -36,4 +42,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
