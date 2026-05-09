@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PET | Personal Terminal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="pet-frame">
+        <header>
+            <div class="logo">PET_v3.0</div>
+            <div id="status-light" class="offline"></div>
+            <div class="sync-text" id="sync-status">SYSTEM OFFLINE</div>
+        </header>
+
+        <main id="editor-container">
+            <div id="editor" contenteditable="true" placeholder="JACK IN! ENTER DATA..."></div>
+        </main>
+
+        <footer>
+            <button id="save-btn">UPLOAD DATA</button>
+            <button id="config-btn">CONFIG</button>
+        </footer>
+    </div>
+
+    <!-- Token Entry Modal -->
+    <div id="modal" class="hidden">
+        <div class="modal-content">
+            <h3>SET ACCESS TOKEN</h3>
+            <input type="password" id="gh-token" placeholder="GitHub PAT...">
+            <input type="text" id="gh-repo" placeholder="username/repo-name">
+            <button id="setup-confirm">INITIALIZE</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
