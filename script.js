@@ -9,8 +9,23 @@ const chipContainer = document.getElementById('chip-container');
 let GITHUB_TOKEN = localStorage.getItem('pet_token');
 let GITHUB_REPO = localStorage.getItem('pet_repo');
 let FILE_SHA = null;
-let allNotes = []; 
+let allNotes = [];
 let activeIndex = null; // Tracks if we are editing an existing chip
+
+const CHIP_ICONS = [
+    "⚔️", // sword
+    "🔥", // fire
+    "💊", // heal
+    "❄️", // ice
+    "⚡", // thunder
+    "💥", // cannon
+    "🛡️", // shield
+    "🧠", // support / nav
+    "💾", // default data
+    "☠️"  // dark chip
+];
+
+
 
 // Initialize
 if (!GITHUB_TOKEN) {
@@ -26,6 +41,7 @@ document.getElementById('setup-confirm').addEventListener('click', () => {
     localStorage.setItem('pet_repo', document.getElementById('gh-repo').value);
     location.reload();
 });
+
 
 // --- LOAD DATA ---
 async function loadData() {
@@ -44,11 +60,11 @@ async function loadData() {
 
         const data = await res.json();
         FILE_SHA = data.sha;
-        
+
         // Robust UTF-8 Decoding
         const content = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, '')))));
         allNotes = content.notes || [];
-        
+
         renderChips();
         statusLight.className = "online";
         syncStatus.innerText = "LINK ESTABLISHED";
@@ -59,34 +75,116 @@ async function loadData() {
     }
 }
 
+function getChipMeta(title = "") {
+    const ICONS = ["⚔️", "🔥", "💊", "❄️", "⚡", "💥", "🛡️", "🧠", "💾", "☠️"];
+    const ELEMENTS = ["fire", "aqua", "elec", "neutral", "fire", "aqua", "elec"];
+
+    let hash = 0;
+
+    for (let i = 0; i < title.length; i++) {
+        hash = (hash * 33 + title.charCodeAt(i)) >>> 0;
+    }
+
+    const icon = ICONS[hash % ICONS.length];
+
+    // 🔥 better spread (no bit shifting collapse)
+    const elementIndex = Math.floor((hash % 1000) / 250);
+    const element = ELEMENTS[elementIndex];
+
+    return { icon, element };
+}
+
 // --- RENDER CHIPS ---
 function renderChips() {
     chipContainer.innerHTML = "";
-    
-    // Add a "+" chip for creating new notes
+
+    // NEW CHIP
     const newBtn = document.createElement('div');
     newBtn.className = "chip new-chip";
-    newBtn.innerText = "[+] NEW LOG";
+
+    const meta = getChipMeta("+ NEW LOG");
+
+    newBtn.className = `chip ${meta.element} new-chip`;
+
+    newBtn.innerHTML = `
+    <div class="chip-top">
+        <span class="chip-title-text">+ NEW LOG</span>
+    </div>
+
+    <div class="chip-art">
+        <span class="chip-icon">${meta.icon}</span>
+    </div>
+
+    <div class="chip-bottom"></div>
+`;
+
     newBtn.onclick = () => {
         activeIndex = null;
         editor.innerHTML = "";
-        editor.focus();
+        requestAnimationFrame(() => renderChips());
     };
+
+    newBtn.style.animation = "chipInsert 0.25s ease-out";
+
     chipContainer.appendChild(newBtn);
 
+    // NOTES
     allNotes.forEach((note, index) => {
+
         const chip = document.createElement('div');
-        chip.className = `chip ${activeIndex === index ? 'active' : ''}`;
-        chip.innerText = note.title || `LOG_${index}`;
-        
+
+        const meta = getChipMeta(note.title || "");
+
+        const element = meta?.element || "neutral";
+        const icon = meta?.icon || "💾";
+
+        const isActive = index === activeIndex;
+
+        chip.className = `chip ${element} ${isActive ? 'active' : ''}`;
+
+        chip.innerHTML = `
+        <div class="chip-top">
+            <span class="chip-title-text">
+                ${note.title || `LOG_${index}`}
+            </span>
+        </div>
+
+        <div class="chip-art">
+            <span class="chip-icon">
+                ${icon}
+            </span>
+        </div>
+
+        <div class="chip-bottom"></div>
+    `;
+        const delay = Math.random() * 2; // 0–2s stagger
+
+        chip.style.setProperty("--scan-delay", `${delay}s`);
+
+        chip.style.animation =
+            "chipInsert 0.35s cubic-bezier(0.2, 1, 0.2, 1)";
+
         chip.onclick = () => {
             activeIndex = index;
-            editor.innerHTML = note.body;
-            renderChips(); // Refresh styles
+            editor.innerHTML = note.body || "";
+
+            // remove previous locks
+            document.querySelectorAll(".chip.locked")
+                .forEach(c => c.classList.remove("locked"));
+
+            // lock current chip
+            chip.classList.add("locked");
+
+            chip.style.animation = "chipLock 0.35s ease-out";
+
+            renderChips();
         };
+
         chipContainer.appendChild(chip);
     });
 }
+
+
 
 // --- SAVE DATA ---
 saveBtn.addEventListener('click', async () => {
@@ -98,7 +196,11 @@ saveBtn.addEventListener('click', async () => {
     syncStatus.innerText = "UPLOADING...";
 
     const currentNote = {
-        title: editor.innerText.substring(0, 15).toUpperCase() || "UNTITLED LOG",
+        title: editor.innerText
+            .trim()
+            .split('\n')[0]
+            .substring(0, 22)
+            .toUpperCase() || "UNTITLED LOG",
         body: editor.innerHTML,
         date: new Date().toLocaleString()
     };
@@ -112,7 +214,7 @@ saveBtn.addEventListener('click', async () => {
     try {
         // Robust UTF-8 Encoding
         const content = btoa(unescape(encodeURIComponent(JSON.stringify({ notes: allNotes }))));
-        
+
         const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/vault.json`, {
             method: 'PUT',
             headers: {

@@ -52,12 +52,10 @@
 
 body {
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             #6090b0 0%,
             #385068 40%,
-            #203040 100%
-        );
+            #203040 100%);
     color: var(--pet-text);
     font-family: 'Courier New', Courier, monospace;
 
@@ -80,12 +78,10 @@ body {
     height: min(92vh, 700px);
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-bg-top) 0%,
             var(--pet-bg-mid) 50%,
-            var(--pet-bg-bot) 100%
-        );
+            var(--pet-bg-bot) 100%);
 
     border: 4px solid var(--pet-frame-outer);
 
@@ -97,7 +93,7 @@ body {
     box-shadow:
         0 0 0 2px var(--pet-frame-inner),
         0 6px 30px var(--pet-shadow),
-        inset 0 1px 0 rgba(255,255,255,0.4);
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
     overflow: hidden;
     position: relative;
@@ -113,14 +109,12 @@ body {
     z-index: 10;
     border-radius: 50%;
     background:
-        radial-gradient(
-            circle,
+        radial-gradient(circle,
             var(--pet-accent) 40%,
-            var(--pet-accent-dark) 100%
-        );
+            var(--pet-accent-dark) 100%);
     box-shadow:
-        inset 0 -2px 3px rgba(0,0,0,0.3),
-        0 1px 4px rgba(0,0,0,0.3);
+        inset 0 -2px 3px rgba(0, 0, 0, 0.3),
+        0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 #pet-frame::before {
@@ -139,11 +133,9 @@ body {
 
 header {
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-header-top) 0%,
-            var(--pet-header-bot) 100%
-        );
+            var(--pet-header-bot) 100%);
 
     padding: 10px 16px;
 
@@ -154,9 +146,9 @@ header {
     border-bottom: 3px solid var(--pet-frame-outer);
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.15),
-        inset 0 -2px 6px rgba(0,0,0,0.2),
-        0 2px 6px rgba(0,0,0,0.2);
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.2),
+        0 2px 6px rgba(0, 0, 0, 0.2);
 
     flex-shrink: 0;
 }
@@ -166,8 +158,8 @@ header {
     color: var(--pet-text-light);
     letter-spacing: 3px;
     text-shadow:
-        1px 1px 0 rgba(0,0,0,0.5),
-        0 0 8px rgba(255,255,255,0.3);
+        1px 1px 0 rgba(0, 0, 0, 0.5),
+        0 0 8px rgba(255, 255, 255, 0.3);
     font-size: 1rem;
     text-transform: uppercase;
 }
@@ -189,7 +181,7 @@ header {
     height: 12px;
     border-radius: 50%;
     flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .offline {
@@ -197,7 +189,7 @@ header {
         radial-gradient(circle, #ff6060 30%, var(--pet-red) 100%);
     box-shadow:
         0 0 6px var(--pet-red),
-        inset 0 1px 2px rgba(255,255,255,0.4);
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
 }
 
 .online {
@@ -205,13 +197,20 @@ header {
         radial-gradient(circle, #80ff80 30%, var(--pet-green) 100%);
     box-shadow:
         0 0 6px var(--pet-green),
-        inset 0 1px 2px rgba(255,255,255,0.4);
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
     animation: statusBlink 2.5s ease-in-out infinite;
 }
 
 @keyframes statusBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.65; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.65;
+    }
 }
 
 /* =========================
@@ -225,11 +224,9 @@ header {
     padding: 14px;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-window-bg) 0%,
-            #c8e0f0 100%
-        );
+            #c8e0f0 100%);
 
     position: relative;
     overflow: hidden;
@@ -239,8 +236,8 @@ header {
     border-radius: 6px;
 
     box-shadow:
-        inset 0 2px 8px rgba(0,0,0,0.15),
-        inset 0 0 0 1px rgba(255,255,255,0.4);
+        inset 0 2px 8px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
 }
 
 /* Grid overlay — subtle PET screen grid */
@@ -250,8 +247,8 @@ header {
     inset: 0;
 
     background:
-        linear-gradient(rgba(80,128,160,0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(80,128,160,0.07) 1px, transparent 1px);
+        linear-gradient(rgba(80, 128, 160, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 128, 160, 0.07) 1px, transparent 1px);
 
     background-size: 18px 18px;
     pointer-events: none;
@@ -263,13 +260,11 @@ header {
     position: absolute;
     inset: 0;
     background:
-        repeating-linear-gradient(
-            0deg,
+        repeating-linear-gradient(0deg,
             transparent 0px,
             transparent 3px,
-            rgba(0,0,0,0.03) 3px,
-            rgba(0,0,0,0.03) 4px
-        );
+            rgba(0, 0, 0, 0.03) 3px,
+            rgba(0, 0, 0, 0.03) 4px);
     pointer-events: none;
 }
 
@@ -308,19 +303,17 @@ header {
 }
 
 #editor::-webkit-scrollbar-track {
-    background: rgba(80,128,160,0.15);
+    background: rgba(80, 128, 160, 0.15);
     border-radius: 4px;
 }
 
 #editor::-webkit-scrollbar-thumb {
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-chip-blue-hi),
-            var(--pet-chip-blue)
-        );
+            var(--pet-chip-blue));
     border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Images inside editor */
@@ -330,7 +323,7 @@ header {
     margin: 10px 0;
 
     box-shadow:
-        0 2px 8px rgba(0,0,0,0.2);
+        0 2px 8px rgba(0, 0, 0, 0.2);
 
     border-radius: 4px;
 }
@@ -345,11 +338,9 @@ footer {
     gap: 10px;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-bg-mid) 0%,
-            var(--pet-bg-bot) 100%
-        );
+            var(--pet-bg-bot) 100%);
 
     border-top: 3px solid var(--pet-frame-outer);
 
@@ -358,7 +349,7 @@ footer {
     z-index: 5;
 
     box-shadow:
-        inset 0 2px 4px rgba(255,255,255,0.15);
+        inset 0 2px 4px rgba(255, 255, 255, 0.15);
 }
 
 /* =========================
@@ -369,12 +360,10 @@ button {
     flex: 1;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             #f8f0e0 0%,
             #d8c8a8 40%,
-            #c0a880 100%
-        );
+            #c0a880 100%);
 
     border: 2px solid var(--pet-frame-outer);
 
@@ -399,39 +388,37 @@ button {
         box-shadow 0.15s ease;
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.6),
-        inset 0 -2px 4px rgba(0,0,0,0.1),
-        0 2px 4px rgba(0,0,0,0.2);
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.2);
 
     text-shadow:
-        0 1px 0 rgba(255,255,255,0.5);
+        0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 button:hover {
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-accent) 0%,
-            var(--pet-accent-dark) 100%
-        );
+            var(--pet-accent-dark) 100%);
 
     color: white;
     border-color: var(--pet-accent-dark);
 
     box-shadow:
         0 2px 10px rgba(248, 104, 56, 0.4),
-        inset 0 1px 0 rgba(255,255,255,0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 
     transform: translateY(-1px);
 
     text-shadow:
-        0 1px 2px rgba(0,0,0,0.3);
+        0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 button:active {
     transform: translateY(1px);
     box-shadow:
-        inset 0 2px 6px rgba(0,0,0,0.3);
+        inset 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* =========================
@@ -457,11 +444,9 @@ button:active {
     max-width: 400px;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-window-bg) 0%,
-            var(--pet-bg-top) 100%
-        );
+            var(--pet-bg-top) 100%);
 
     border: 3px solid var(--pet-frame-outer);
 
@@ -485,12 +470,10 @@ button:active {
     height: 6px;
     border-radius: 7px 7px 0 0;
     background:
-        linear-gradient(
-            90deg,
+        linear-gradient(90deg,
             var(--pet-header-top),
             var(--pet-chip-blue-hi),
-            var(--pet-header-top)
-        );
+            var(--pet-header-top));
 }
 
 .modal-content h3 {
@@ -499,7 +482,7 @@ button:active {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 14px;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .modal-content input {
@@ -520,13 +503,13 @@ button:active {
     border-radius: 4px;
 
     box-shadow:
-        inset 0 2px 4px rgba(0,0,0,0.1);
+        inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .modal-content input:focus {
     border-color: var(--pet-chip-blue);
     box-shadow:
-        inset 0 2px 4px rgba(0,0,0,0.1),
+        inset 0 2px 4px rgba(0, 0, 0, 0.1),
         0 0 6px rgba(56, 112, 176, 0.3);
 }
 
@@ -572,11 +555,9 @@ button:active {
     padding: 8px 10px;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-bg-mid) 0%,
-            #78b0c8 100%
-        );
+            #78b0c8 100%);
 
     border-bottom: 2px solid var(--pet-frame-outer);
 
@@ -584,8 +565,8 @@ button:active {
     flex-shrink: 0;
 
     box-shadow:
-        inset 0 -1px 3px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.3);
+        inset 0 -1px 3px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 #chip-deck::-webkit-scrollbar {
@@ -593,7 +574,7 @@ button:active {
 }
 
 #chip-deck::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 3px;
 }
 
@@ -604,20 +585,23 @@ button:active {
 
 #chip-container {
     display: flex;
-    gap: 8px;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    max-height: 340px;
+    overflow-y: auto;
 }
 
-.chip {
+/* .chip {
     min-width: 110px;
 
     padding: 7px 14px;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-chip-blue-hi) 0%,
-            var(--pet-chip-blue) 100%
-        );
+            var(--pet-chip-blue) 100%);
 
     border: 2px solid var(--pet-frame-outer);
 
@@ -636,16 +620,74 @@ button:active {
     border-radius: 5px;
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.3),
-        inset 0 -2px 3px rgba(0,0,0,0.2),
-        0 2px 4px rgba(0,0,0,0.2);
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.2);
 
     white-space: nowrap;
 
     position: relative;
 
     text-shadow:
-        0 1px 2px rgba(0,0,0,0.4);
+        0 1px 2px rgba(0, 0, 0, 0.4);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    clip-path: polygon(
+    8px 0,
+    100% 0,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0 100%,
+    0 8px
+);
+} */
+
+.chip {
+    position: relative;
+
+    width: 80px;
+    height: 110px;
+
+    flex: 0 0 auto;
+
+    background: linear-gradient(180deg, #6fb1e6 0%, #2f6fb8 100%);
+
+    border: 3px solid #1f3f6b;
+
+    border-radius: 6px;
+
+    box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.25),
+        inset 0 -6px 10px rgba(0,0,0,0.25),
+        0 6px 12px rgba(0,0,0,0.35);
+
+    overflow: hidden;
+
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.chip-top {
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    background: linear-gradient(180deg, #e6e6e6 0%, #bfc7d4 100%);
+
+    border-bottom: 2px solid #7a8aa0;
+
+    font-size: 10px;
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    padding: 4px;
+
+    overflow: hidden;
 }
 
 /* Chip top sheen */
@@ -656,26 +698,48 @@ button:active {
     left: 6px;
     right: 6px;
     height: 2px;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 1px;
+}
+
+.chip::after {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: -60%;
+
+    width: 40%;
+    height: 140%;
+
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+
+    transform: rotate(10deg);
+
+    animation: scanMove 3.2s linear infinite;
+    animation-delay: var(--scan-delay);
+
+    pointer-events: none;
 }
 
 .chip:hover {
     transform: translateY(-2px);
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             #90c8f0 0%,
-            var(--pet-chip-blue-hi) 100%
-        );
+            var(--pet-chip-blue-hi) 100%);
 
     border-color: var(--pet-gold);
     color: var(--pet-gold);
 
     box-shadow:
         0 3px 10px rgba(56, 112, 176, 0.4),
-        inset 0 1px 0 rgba(255,255,255,0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 
     text-shadow:
         0 0 6px rgba(248, 200, 48, 0.5);
@@ -685,19 +749,180 @@ button:active {
     border-color: var(--pet-accent);
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--pet-accent) 0%,
-            var(--pet-accent-dark) 100%
-        );
+            var(--pet-accent-dark) 100%);
+
+    transform: scale(0.95);
 
     box-shadow:
         0 0 10px rgba(248, 104, 56, 0.5),
-        inset 0 1px 0 rgba(255,255,255,0.25),
-        0 2px 6px rgba(0,0,0,0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 2px 6px rgba(0, 0, 0, 0.3);
 
     color: white;
 
     text-shadow:
-        0 1px 3px rgba(0,0,0,0.4);
+        0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.chip-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* .chip-icon {
+    font-size: 14px;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5));
+} */
+
+.chip-icon {
+    font-size: 22px;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+}
+.chip-title-text {
+    font-size: 9px;
+    font-weight: bold;
+
+    color: #1a1a1a;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-width: 90px;
+}
+
+.chip-art {
+    /* height: 85px; */
+
+    /* margin: 4px 6px; */
+    margin-top: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    transform: scale(1.2);
+}
+
+.chip-bottom {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 26px;
+
+    background: repeating-linear-gradient(
+        90deg,
+        #caa46a 0px,
+        #caa46a 6px,
+        #8b5e34 6px,
+        #8b5e34 10px
+    );
+
+    border-top: 2px solid #1f3f6b;
+}
+
+.chip:hover {
+    transform: translateY(-3px) scale(1.03);
+
+    box-shadow:
+        0 10px 18px rgba(0,0,0,0.4),
+        0 0 12px rgba(120,180,255,0.5);
+}
+
+.chip.locked {
+    box-shadow:
+        0 0 14px rgba(255, 220, 80, 0.6),
+        0 0 30px rgba(255, 140, 40, 0.3);
+}
+
+.chip.fire {
+    background: linear-gradient(180deg, #ff6a3d, #a62b14) !important;
+    border-color: #ffb199 !important;
+    box-shadow: 0 0 10px rgba(255,80,40,0.35);
+}
+
+.chip.aqua {
+    background: linear-gradient(180deg, #3db7ff, #1c4f9c) !important;
+    border-color: #a8dcff !important;
+    box-shadow: 0 0 10px rgba(60,160,255,0.35);
+}
+
+.chip.elec {
+    background: linear-gradient(180deg, #ffe86a, #b38f00) !important;
+    border-color: #fff2a8 !important;
+    box-shadow: 0 0 10px rgba(255,220,80,0.35);
+}
+
+.chip.neutral {
+    background: linear-gradient(180deg, #6fb1e6, #2f6fb8);
+}
+
+@keyframes chipInsert {
+    0% {
+        transform: translateY(-60px) scale(0.7);
+        opacity: 0;
+        filter: brightness(2) hue-rotate(40deg);
+    }
+
+    60% {
+        transform: translateY(8px) scale(1.05);
+        opacity: 1;
+    }
+
+    80% {
+        transform: translateY(-3px) scale(0.98);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        filter: none;
+    }
+}
+
+@keyframes scanMove {
+    0% {
+        left: -60%;
+    }
+    100% {
+        left: 140%;
+    }
+}
+
+@keyframes chipLock {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    40% {
+        transform: scale(0.95);
+        filter: brightness(1.6);
+    }
+
+    70% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+        filter: brightness(1.2);
+    }
 }
