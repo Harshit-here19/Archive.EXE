@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 :root {
     --cyber-blue: #00d4ff;
     --dark-blue: #001a33;
@@ -57,7 +59,7 @@ body {
             #385068 40%,
             #203040 100%);
     color: var(--pet-text);
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "JetBrains Mono", 'Courier New', Courier, monospace;
 
     display: flex;
     justify-content: center;
@@ -162,6 +164,7 @@ header {
         0 0 8px rgba(255, 255, 255, 0.3);
     font-size: 1rem;
     text-transform: uppercase;
+    margin-left: 16px;
 }
 
 .sync-text {
@@ -358,67 +361,102 @@ footer {
 
 button {
     flex: 1;
+    /* MMBN Signature Orange/Yellow Gradient */
+    background: linear-gradient(135deg,
+            #ffb100 0%,
+            #ff7a00 60%,
+            #ff5a00 100%);
 
-    background:
-        linear-gradient(180deg,
-            #f8f0e0 0%,
-            #d8c8a8 40%,
-            #c0a880 100%);
+    /* Pixel-style thick border */
+    border: 3px solid #000;
 
-    border: 2px solid var(--pet-frame-outer);
+    /* Rectangular but with the "cut corners" look */
+    clip-path: polygon(8px 0%, 100% 0%,
+            100% calc(100% - 8px),
+            calc(100% - 8px) 100%,
+            0% 100%, 0% 8px);
 
-    color: var(--pet-text);
-
-    padding: 10px;
-
+    color: #fff;
+    padding: 12px 20px;
     cursor: pointer;
 
-    font-weight: bold;
-    font-size: 12px;
+    /* GBA Pixel Font Vibes */
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;
+    font-size: 14px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    text-shadow: 2px 2px 0px #000;
 
     position: relative;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+    /* Stepped transition feels "retro" */
 
-    border-radius: 6px;
-
-    transition:
-        transform 0.1s ease,
-        background 0.15s ease,
-        box-shadow 0.15s ease;
-
+    /* Layered shadows for a "cartridge" depth */
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.6),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-        0 2px 4px rgba(0, 0, 0, 0.2);
-
-    text-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.5);
+        inset -4px -4px 0px rgba(0, 0, 0, 0.2),
+        inset 4px 4px 0px rgba(255, 255, 255, 0.4);
 }
 
+/* The "Cyber Sheen" effect */
+button::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255,255,255,0.25),
+        transparent
+    );
+    animation: sheen 2.5s infinite;
+    pointer-events: none;
+}
+
+@keyframes sheen {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(300%); }
+}
+
+/* 🔥 HOVER - High-Energy Aqua (MegaMan's primary color) */
 button:hover {
-    background:
-        linear-gradient(180deg,
-            var(--pet-accent) 0%,
-            var(--pet-accent-dark) 100%);
+    background: linear-gradient(135deg,
+            #00e5ff 0%,
+            #00e5ff 50%,
+            #00a2ff 50%,
+            #00a2ff 100%);
 
-    color: white;
-    border-color: var(--pet-accent-dark);
-
-    box-shadow:
-        0 2px 10px rgba(248, 104, 56, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-
+    color: #fff;
+    border-color: #000;
     transform: translateY(-1px);
 
-    text-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.3);
+    /* Pulsing "Jack-In" glow */
+    box-shadow:
+        0 0 15px rgba(0, 229, 255, 0.8),
+        inset -4px -4px 0px rgba(0, 0, 0, 0.2);
 }
 
+/* ⚡ ACTIVE - "Executed" State */
 button:active {
-    transform: translateY(1px);
-    box-shadow:
-        inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95);
+    filter: brightness(1.2) contrast(1.2);
+    box-shadow: inset 4px 4px 0px #000;
+}
+
+/* Optional: Add a "Selection" bracket effect on hover */
+button::after {
+    content: '▶';
+    position: absolute;
+    left: 6px;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+
+button:hover::after {
+    opacity: 1;
 }
 
 /* =========================
@@ -515,6 +553,41 @@ button:active {
 
 .hidden {
     display: none !important;
+}
+
+#confirm-modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.confirm-box {
+    background: #1b2436;
+
+    border: 2px solid #00e5ff;
+
+    padding: 20px;
+
+    width: 260px;
+
+    color: white;
+
+    text-align: center;
+
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 /* =========================
@@ -659,13 +732,13 @@ button:active {
     border-radius: 6px;
 
     box-shadow:
-        inset 0 2px 0 rgba(255,255,255,0.25),
-        inset 0 -6px 10px rgba(0,0,0,0.25),
-        0 6px 12px rgba(0,0,0,0.35);
+        inset 0 2px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -6px 10px rgba(0, 0, 0, 0.25),
+        0 6px 12px rgba(0, 0, 0, 0.35);
 
     overflow: hidden;
 
-    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.15s ease;
 }
 
 .chip-top {
@@ -688,6 +761,38 @@ button:active {
     padding: 4px;
 
     overflow: hidden;
+    position: relative;
+
+}
+
+.chip-delete {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+
+    width: 16px;
+    height: 16px;
+
+    font-size: 10px;
+
+    border: none;
+    border-radius: 3px;
+
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+
+    cursor: pointer;
+
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.chip:hover .chip-delete {
+    opacity: 1;
+}
+
+.chip-delete:hover {
+    background: rgba(255, 60, 60, 0.8);
 }
 
 /* Chip top sheen */
@@ -711,12 +816,10 @@ button:active {
     width: 40%;
     height: 140%;
 
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.35),
-        transparent
-    );
+    background: linear-gradient(120deg,
+            transparent,
+            rgba(255, 255, 255, 0.35),
+            transparent);
 
     transform: rotate(10deg);
 
@@ -765,6 +868,7 @@ button:active {
     text-shadow:
         0 1px 3px rgba(0, 0, 0, 0.4);
 }
+
 .chip-label {
     display: flex;
     align-items: center;
@@ -787,11 +891,12 @@ button:active {
     align-items: center;
     justify-content: center;
 
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 6px;
 
-    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
 }
+
 .chip-title-text {
     font-size: 9px;
     font-weight: bold;
@@ -828,13 +933,11 @@ button:active {
 
     height: 26px;
 
-    background: repeating-linear-gradient(
-        90deg,
-        #caa46a 0px,
-        #caa46a 6px,
-        #8b5e34 6px,
-        #8b5e34 10px
-    );
+    background: repeating-linear-gradient(90deg,
+            #caa46a 0px,
+            #caa46a 6px,
+            #8b5e34 6px,
+            #8b5e34 10px);
 
     border-top: 2px solid #1f3f6b;
 }
@@ -843,8 +946,8 @@ button:active {
     transform: translateY(-3px) scale(1.03);
 
     box-shadow:
-        0 10px 18px rgba(0,0,0,0.4),
-        0 0 12px rgba(120,180,255,0.5);
+        0 10px 18px rgba(0, 0, 0, 0.4),
+        0 0 12px rgba(120, 180, 255, 0.5);
 }
 
 .chip.locked {
@@ -856,23 +959,73 @@ button:active {
 .chip.fire {
     background: linear-gradient(180deg, #ff6a3d, #a62b14) !important;
     border-color: #ffb199 !important;
-    box-shadow: 0 0 10px rgba(255,80,40,0.35);
+    box-shadow: 0 0 10px rgba(255, 80, 40, 0.35);
 }
 
 .chip.aqua {
     background: linear-gradient(180deg, #3db7ff, #1c4f9c) !important;
     border-color: #a8dcff !important;
-    box-shadow: 0 0 10px rgba(60,160,255,0.35);
+    box-shadow: 0 0 10px rgba(60, 160, 255, 0.35);
 }
 
 .chip.elec {
     background: linear-gradient(180deg, #ffe86a, #b38f00) !important;
     border-color: #fff2a8 !important;
-    box-shadow: 0 0 10px rgba(255,220,80,0.35);
+    box-shadow: 0 0 10px rgba(255, 220, 80, 0.35);
 }
 
 .chip.neutral {
     background: linear-gradient(180deg, #6fb1e6, #2f6fb8);
+}
+
+#trash-slot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    width: 120px;
+    height: 60px;
+
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #ff4444;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    font-weight: bold;
+
+    transition: 0.2s;
+
+    clip-path: polygon(8px 0,
+            100% 0,
+            100% calc(100% - 8px),
+            calc(100% - 8px) 100%,
+            0 100%,
+            0 8px);
+}
+
+#trash-slot.active {
+    background: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 20px red;
+}
+
+
+#trash-slot::before {
+    content: "";
+    position: absolute;
+
+    width: 200%;
+    height: 200%;
+
+    background: radial-gradient(circle,
+            rgba(255, 0, 0, 0.2),
+            transparent 60%);
+
+    animation: trashPulse 2s infinite linear;
+
+    pointer-events: none;
 }
 
 @keyframes chipInsert {
@@ -901,6 +1054,7 @@ button:active {
     0% {
         left: -60%;
     }
+
     100% {
         left: 140%;
     }
@@ -924,5 +1078,66 @@ button:active {
     100% {
         transform: scale(1);
         filter: brightness(1.2);
+    }
+}
+
+@keyframes chipBreak {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1) rotate(2deg);
+    }
+
+    100% {
+        transform: scale(0.2);
+        opacity: 0;
+        filter: blur(4px);
+    }
+}
+
+@keyframes chipCorrupt {
+    0% {
+        filter: none;
+        transform: scale(1);
+    }
+
+    20% {
+        filter: hue-rotate(90deg) brightness(2);
+        transform: translateX(-2px);
+    }
+
+    40% {
+        transform: translateX(2px);
+    }
+
+    60% {
+        filter: contrast(2) blur(1px);
+        transform: scale(1.05);
+    }
+
+    100% {
+        filter: blur(6px) brightness(0);
+        transform: scale(0.2);
+        opacity: 0;
+    }
+}
+
+@keyframes trashPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.1;
+    }
+
+    100% {
+        transform: scale(0.8);
+        opacity: 0.3;
     }
 }

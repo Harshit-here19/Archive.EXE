@@ -19,6 +19,7 @@
         <section id="chip-deck">
             <div id="chip-container"></div>
         </section>
+        <div id="trash-slot">🗑 TRASH</div>
 
         <main id="editor-container">
             <div id="editor" contenteditable="true" placeholder="JACK IN! ENTER DATA..."></div>
@@ -39,6 +40,19 @@
             <button id="setup-confirm">INITIALIZE</button>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="confirm-modal" class="hidden">
+    <div class="confirm-box">
+        <h3>DELETE CHIP?</h3>
+        <p>This action cannot be undone.</p>
+
+        <div class="confirm-actions">
+            <button id="confirm-yes">YES</button>
+            <button id="confirm-no">NO</button>
+        </div>
+    </div>
+</div>
 
     <script src="script.js"></script>
 </body>
