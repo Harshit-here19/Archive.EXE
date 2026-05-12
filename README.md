@@ -1,5 +1,9 @@
 
-# 📟 Archive.EXE | PET v3.0
+# 📟 Archive.EXE | PET v3.0 
+
+**Deployment Status**: 🟢 Online
+
+**Direct Link**: https://harshit-here19.github.io/Archive.EXE/
 
 **Personal Terminal (PET)** is a cyber-styled, decentralized note-taking interface inspired by the _MegaMan Battle Network_ series. It transforms your notes into "Battle Chips," using a private GitHub repository as your persistent, encrypted-on-the-fly storage vault.
 
