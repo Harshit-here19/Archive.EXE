@@ -323,7 +323,8 @@ header {
 /* Images inside editor */
 #editor img {
     max-width: 100%;
-    border: 3px solid var(--pet-accent);
+    /* border: 3px solid var(--pet-accent); */
+    border: 3px solid black;
     margin: 10px 0;
 
     box-shadow:
@@ -837,12 +838,12 @@ mark {
 
 #chip-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;      /* 👈 important: no wrapping */
 
     gap: 10px;
 
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;       /* 👈 horizontal scroll */
+    overflow-y: hidden;     /* no vertical scroll */
 
     max-height: 230px;
 
@@ -850,7 +851,7 @@ mark {
 
     min-height: 0;
 
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;  /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
 
     scroll-behavior: smooth;
@@ -860,6 +861,11 @@ mark {
 /* Chrome/Safari */
 #chip-container::-webkit-scrollbar {
     display: none;
+}
+
+/* optional: prevent chips shrinking/wrapping inside */
+#chip-container > * {
+    flex: 0 0 auto;
 }
 
 /* .chip {

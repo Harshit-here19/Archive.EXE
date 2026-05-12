@@ -586,3 +586,17 @@ function sanitize(text = "") {
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
 }
+
+chipContainer.addEventListener("wheel", (e) => {
+    // only intercept if scrolling vertically
+    // console.log(e.deltaY)
+    if (e.deltaY === 0) return;
+
+    e.preventDefault();
+
+    chipContainer.scrollBy({
+        left: e.deltaY,
+        behavior: "smooth"
+    });
+    
+}, { passive: false });
