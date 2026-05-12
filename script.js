@@ -5,6 +5,17 @@ const modal = document.getElementById('modal');
 const statusLight = document.getElementById('status-light');
 const syncStatus = document.getElementById('sync-status');
 const chipContainer = document.getElementById('chip-container');
+const searchInput = document.getElementById("chip-search");
+
+let searchTerm = "";
+
+searchInput.addEventListener("input", (e) => {
+
+    searchTerm = e.target.value.toLowerCase().trim();
+
+    renderChips();
+
+});
 
 let GITHUB_TOKEN = localStorage.getItem('pet_token');
 let GITHUB_REPO = localStorage.getItem('pet_repo');
@@ -166,8 +177,29 @@ function renderChips() {
 
     chipContainer.appendChild(newBtn);
 
+    const filteredNotes = allNotes.filter(note => {
+
+        if (!searchTerm) return true;
+
+        return (
+            note.title?.toLowerCase().includes(searchTerm) ||
+            note.body?.toLowerCase().includes(searchTerm)
+        );
+    });
+
+    if (filteredNotes.length === 0) {
+
+        chipContainer.innerHTML += `
+        <div class="no-results">
+            NO MATCHING LOGS
+        </div>
+    `;
+
+        return;
+    }
+
     // NOTES
-    allNotes.forEach((note, index) => {
+    filteredNotes.forEach((note, index) => {
 
         const chip = document.createElement('div');
 
@@ -185,7 +217,7 @@ function renderChips() {
         chip.innerHTML = `
     <div class="chip-top">
         <span class="chip-title-text">
-            ${note.title || `LOG_${index}`}
+            ${highlight(sanitize(note.title || `LOG_${index}`), searchTerm)}
         </span>
 
         <button class="chip-delete" title="Delete">✕</button>
@@ -280,7 +312,7 @@ saveBtn.addEventListener('click', async () => {
 
     // 🔥 FIX: Use existing ID if activeId exists, otherwise generate new
     const currentNote = {
-        id: activeId ? activeId : generateUUID(), 
+        id: activeId ? activeId : generateUUID(),
         title: editor.innerText.trim().split('\n')[0].substring(0, 22).toUpperCase() || "UNTITLED LOG",
         body: editor.innerHTML,
         date: new Date().toLocaleString()
@@ -290,8 +322,10 @@ saveBtn.addEventListener('click', async () => {
 
     if (i !== -1) {
         allNotes[i] = currentNote;
+        activeId = currentNote.id;
     } else {
         allNotes.push(currentNote); // Add new
+        activeId = currentNote.id;
     }
 
     try {
@@ -372,15 +406,16 @@ trash.addEventListener("drop", async (e) => {
     // but usually 'drop' only fires if the mouse is OVER the element.
     const ok = await confirmDeleteChip();
     if (!ok) {
-        resetChip(draggedChip);
-        return;
-    }
+    resetChip(draggedChip);
+    draggedChip = null;
+    return;
+}
 
     draggedChip.style.animation = "chipCorrupt 0.4s forwards";
 
     setTimeout(async () => {
         allNotes = allNotes.filter(n => n.id !== id);
-        
+
         if (activeId === id) {
             activeId = null;
             editor.innerHTML = "";
@@ -483,4 +518,71 @@ function generateUUID() {
 function resetChip(chip) {
     chip.style.transform = "scale(1)";
     chip.style.filter = "none";
+}
+
+document.getElementById("logout-btn").onclick = async () => {
+
+    const ok = await confirmLogout();
+
+    if (!ok) return;
+
+    localStorage.removeItem("pet_token");
+    localStorage.removeItem("pet_repo");
+
+    // console.log(localStorage.getItem("pet_token"))
+    // console.log(localStorage.getItem("pet_repo"))
+
+    location.reload();
+};
+
+function confirmLogout() {
+    return new Promise((resolve) => {
+
+        const modal = document.getElementById("logout-modal");
+
+        document.getElementById("logout-yes").onclick = () => {
+            modal.classList.add("hidden");
+            resolve(true);
+        };
+
+        document.getElementById("logout-no").onclick = () => {
+            modal.classList.add("hidden");
+            resolve(false);
+        };
+
+        modal.classList.remove("hidden");
+    });
+}
+
+document.getElementById("clear-search").onclick = () => {
+
+    searchInput.value = "";
+    searchTerm = "";
+
+    renderChips();
+};
+
+function escapeRegex(string) {
+
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlight(text, term) {
+
+    if (!term) return text;
+
+    const safeTerm = escapeRegex(term);
+
+    return text.replace(
+        new RegExp(`(${safeTerm})`, "gi"),
+        `<mark>$1</mark>`
+    );
+}
+
+function sanitize(text = "") {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 }

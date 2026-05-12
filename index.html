@@ -11,12 +11,17 @@
 <body>
     <div id="pet-frame">
         <header>
+            <span id="logout-btn" class="pet-logout"></span>
             <div class="logo">PET_v3.0</div>
             <div id="status-light" class="offline"></div>
             <div class="sync-text" id="sync-status">SYSTEM OFFLINE</div>
         </header>
 
         <section id="chip-deck">
+            <div id="search-wrapper">
+                <input id="chip-search" placeholder="SEARCH LOGS..." />
+                <button id="clear-search">✕</button>
+            </div>
             <div id="chip-container"></div>
         </section>
         <div id="trash-slot">🗑 TRASH</div>
@@ -43,16 +48,27 @@
 
     <!-- Delete Confirmation Modal -->
     <div id="confirm-modal" class="hidden">
-    <div class="confirm-box">
-        <h3>DELETE CHIP?</h3>
-        <p>This action cannot be undone.</p>
+        <div class="confirm-box">
+            <h3>DELETE CHIP?</h3>
+            <p>This action cannot be undone.</p>
 
-        <div class="confirm-actions">
-            <button id="confirm-yes">YES</button>
-            <button id="confirm-no">NO</button>
+            <div class="confirm-actions">
+                <button id="confirm-yes">YES</button>
+                <button id="confirm-no">NO</button>
+            </div>
         </div>
     </div>
-</div>
+
+    <div id="logout-modal" class="hidden confirm-modal">
+        <div class="confirm-box">
+            <h3>DISCONNECT PET?</h3>
+
+            <div class="confirm-actions">
+                <button id="logout-yes">YES</button>
+                <button id="logout-no">NO</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
