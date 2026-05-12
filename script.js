@@ -125,23 +125,101 @@ async function loadData() {
     }
 }
 
-function getChipMeta(title = "") {
-    const ICONS = ["⚔️", "🔥", "💊", "❄️", "⚡", "💥", "🛡️", "🧠", "💾", "☠️"];
-    const ELEMENTS = ["fire", "aqua", "elec", "neutral", "fire", "aqua", "elec"];
+const CHIP_TYPES = [
 
-    let hash = 0;
+    // 🔥 FIRE
+    {
+        icon: "🔥",
+        element: "fire"
+    },
 
-    for (let i = 0; i < title.length; i++) {
-        hash = (hash * 33 + title.charCodeAt(i)) >>> 0;
+    // 🌊 AQUA
+    {
+        icon: "🌊",
+        element: "aqua"
+    },
+
+    // ⚡ ELEC
+    {
+        icon: "⚡",
+        element: "elec"
+    },
+
+    // ⚪ NEUTRAL
+    {
+        icon: "💾",
+        element: "neutral"
+    },
+
+    // ☠️ DARK
+    {
+        icon: "☠️",
+        element: "dark"
+    },
+
+    // 🌿 WOOD
+    {
+        icon: "🌿",
+        element: "wood"
+    },
+
+    // 🧠 PSYCHIC
+    {
+        icon: "🧠",
+        element: "psychic"
+    },
+
+    // ❄️ ICE
+    {
+        icon: "❄️",
+        element: "ice"
+    },
+
+    // ☣️ POISON
+    {
+        icon: "☣️",
+        element: "poison"
+    },
+
+    // 🛡 METAL
+    {
+        icon: "🛡️",
+        element: "metal"
+    },
+
+    // 💥 BREAK
+    {
+        icon: "💥",
+        element: "fire"
+    },
+
+    // 🗡 BATTLE
+    {
+        icon: "🗡️",
+        element: "dark"
+    },
+
+    // 💊 HEAL
+    {
+        icon: "💊",
+        element: "wood"
+    },
+
+    // 🔮 ARCANE
+    {
+        icon: "🔮",
+        element: "psychic"
+    },
+
+    // 🚀 TECH
+    {
+        icon: "🚀",
+        element: "metal"
     }
+];
 
-    const icon = ICONS[hash % ICONS.length];
-
-    // 🔥 better spread (no bit shifting collapse)
-    const elementIndex = Math.floor((hash % 1000) / 250);
-    const element = ELEMENTS[elementIndex];
-
-    return { icon, element };
+function getChipMeta(index = 0) {
+    return CHIP_TYPES[index % CHIP_TYPES.length];
 }
 
 // --- RENDER CHIPS ---
@@ -151,20 +229,20 @@ function renderChips() {
     // NEW CHIP
     const newBtn = document.createElement('div');
 
-    const meta = getChipMeta("+ NEW LOG");
+    const meta = getChipMeta(0);
 
-    newBtn.className = `chip ${meta.element} new-chip`;
+    newBtn.className = "chip special-chip";
 
     newBtn.innerHTML = `
-    <div class="chip-top">
-        <span class="chip-title-text">+ NEW LOG</span>
-    </div>
+<div class="chip-top">
+    <span class="chip-title-text">+ NEW LOG</span>
+</div>
 
-    <div class="chip-art">
-        <span class="chip-icon">${meta.icon}</span>
-    </div>
+<div class="chip-art">
+    <span class="chip-icon">➕</span>
+</div>
 
-    <div class="chip-bottom"></div>
+<div class="chip-bottom"></div>
 `;
 
     newBtn.onclick = () => {
@@ -203,7 +281,7 @@ function renderChips() {
 
         const chip = document.createElement('div');
 
-        const meta = getChipMeta(note.title || "");
+        const meta = getChipMeta(index);
 
         const element = meta?.element || "neutral";
         const icon = meta?.icon || "💾";
@@ -406,10 +484,10 @@ trash.addEventListener("drop", async (e) => {
     // but usually 'drop' only fires if the mouse is OVER the element.
     const ok = await confirmDeleteChip();
     if (!ok) {
-    resetChip(draggedChip);
-    draggedChip = null;
-    return;
-}
+        resetChip(draggedChip);
+        draggedChip = null;
+        return;
+    }
 
     draggedChip.style.animation = "chipCorrupt 0.4s forwards";
 
@@ -598,5 +676,103 @@ chipContainer.addEventListener("wheel", (e) => {
         left: e.deltaY,
         behavior: "smooth"
     });
-    
+
 }, { passive: false });
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+    });
+}
+
+function insertImageIntoEditor(base64) {
+    const img = document.createElement("img");
+
+    img.src = base64;
+    img.style.display = "block";
+    img.style.margin = "10px 0";
+
+    makeImageInteractive(img);
+
+    const selection = window.getSelection();
+
+    if (!selection.rangeCount) {
+        editor.appendChild(img);
+        return;
+    }
+
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(img);
+
+    range.setStartAfter(img);
+    range.setEndAfter(img);
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+// 🎯 MAIN PASTE HANDLER
+editor.addEventListener("paste", async (e) => {
+    const items = e.clipboardData?.items;
+
+    if (!items) return;
+
+    for (let item of items) {
+
+        // only handle images
+        if (item.type.startsWith("image")) {
+
+            e.preventDefault(); // stop default paste
+
+            const file = item.getAsFile();
+            if (!file) return;
+
+            try {
+                const base64 = await fileToBase64(file);
+                insertImageIntoEditor(base64);
+            } catch (err) {
+                console.error("Image paste failed:", err);
+            }
+
+            return; // stop after first image
+        }
+    }
+
+    // if no image → allow normal text paste
+});
+
+function makeImageInteractive(img) {
+    img.setAttribute("contenteditable", "false");
+
+    // enable native resizing (simple + effective)
+    img.style.resize = "both";
+    img.style.overflow = "auto";
+    img.style.maxWidth = "100%";
+
+    // allow dragging inside editor
+    img.draggable = true;
+
+    img.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", "");
+        draggedImage = img;
+    });
+}
+
+editor.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+
+editor.addEventListener("drop", async (e) => {
+    e.preventDefault();
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file || !file.type.startsWith("image")) return;
+
+    const base64 = await fileToBase64(file);
+    insertImageIntoEditor(base64);
+});

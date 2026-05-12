@@ -1158,26 +1158,194 @@ mark {
         0 0 30px rgba(255, 140, 40, 0.3);
 }
 
+/* 🔥 FIRE */
 .chip.fire {
-    background: linear-gradient(180deg, #ff6a3d, #a62b14) !important;
-    border-color: #ffb199 !important;
-    box-shadow: 0 0 10px rgba(255, 80, 40, 0.35);
+    background:
+        linear-gradient(
+            180deg,
+            #ff9a6b 0%,
+            #ff6a3d 38%,
+            #d9481f 70%,
+            #8f1f0d 100%
+        ) !important;
+
+    border: 2px solid #ffc4a8 !important;
+
+    box-shadow:
+        0 0 8px rgba(255, 120, 60, 0.55),
+        0 0 18px rgba(255, 80, 20, 0.35),
+        inset 0 2px 3px rgba(255,255,255,0.18);
 }
 
+/* 🌊 AQUA */
 .chip.aqua {
-    background: linear-gradient(180deg, #3db7ff, #1c4f9c) !important;
-    border-color: #a8dcff !important;
-    box-shadow: 0 0 10px rgba(60, 160, 255, 0.35);
+    background:
+        linear-gradient(
+            180deg,
+            #8ee7ff 0%,
+            #41c7ff 35%,
+            #1b7ed8 70%,
+            #0b3c7a 100%
+        ) !important;
+
+    border: 2px solid #c5f4ff !important;
+
+    box-shadow:
+        0 0 8px rgba(80, 210, 255, 0.5),
+        0 0 18px rgba(30, 140, 255, 0.35),
+        inset 0 2px 3px rgba(255,255,255,0.18);
 }
 
+/* ⚡ ELEC */
 .chip.elec {
-    background: linear-gradient(180deg, #ffe86a, #b38f00) !important;
-    border-color: #fff2a8 !important;
-    box-shadow: 0 0 10px rgba(255, 220, 80, 0.35);
+    background:
+        linear-gradient(
+            180deg,
+            #fff8a6 0%,
+            #ffe95c 35%,
+            #ffbf00 68%,
+            #9e6900 100%
+        ) !important;
+
+    border: 2px solid #fff5bd !important;
+
+    box-shadow:
+        0 0 8px rgba(255, 230, 90, 0.6),
+        0 0 18px rgba(255, 200, 0, 0.35),
+        inset 0 2px 3px rgba(255,255,255,0.18);
 }
 
+/* ⚪ NEUTRAL */
 .chip.neutral {
-    background: linear-gradient(180deg, #6fb1e6, #2f6fb8);
+    background:
+        linear-gradient(
+            180deg,
+            #d8e8ff 0%,
+            #8db6e8 38%,
+            #4d79c7 72%,
+            #2a4685 100%
+        ) !important;
+
+    border: 2px solid #eef5ff !important;
+
+    box-shadow:
+        0 0 8px rgba(120, 170, 255, 0.35),
+        0 0 16px rgba(80, 120, 255, 0.22),
+        inset 0 2px 3px rgba(255,255,255,0.18);
+}
+
+/* ☠️ DARK */
+.chip.dark {
+    background:
+        linear-gradient(
+            180deg,
+            #5a5a66 0%,
+            #3b3b44 40%,
+            #1e1e24 75%,
+            #09090d 100%
+        ) !important;
+
+    border: 2px solid #9c9cad !important;
+
+    box-shadow:
+        0 0 10px rgba(0,0,0,0.65),
+        0 0 18px rgba(80,80,120,0.25),
+        inset 0 2px 2px rgba(255,255,255,0.08);
+}
+
+/* 🌿 WOOD / NATURE */
+.chip.wood {
+    background:
+        linear-gradient(
+            180deg,
+            #c8f28d 0%,
+            #7bc84b 35%,
+            #3f8c29 70%,
+            #1d4f18 100%
+        ) !important;
+
+    border: 2px solid #dff8b7 !important;
+
+    box-shadow:
+        0 0 8px rgba(120,255,120,0.35),
+        0 0 18px rgba(50,180,50,0.25),
+        inset 0 2px 3px rgba(255,255,255,0.15);
+}
+
+/* 🧠 PSYCHIC */
+.chip.psychic {
+    background:
+        linear-gradient(
+            180deg,
+            #ffc4ff 0%,
+            #e77dff 35%,
+            #9e49d8 70%,
+            #55247d 100%
+        ) !important;
+
+    border: 2px solid #ffd7ff !important;
+
+    box-shadow:
+        0 0 8px rgba(255,120,255,0.45),
+        0 0 18px rgba(200,80,255,0.28),
+        inset 0 2px 3px rgba(255,255,255,0.16);
+}
+
+/* ❄️ ICE */
+.chip.ice {
+    background:
+        linear-gradient(
+            180deg,
+            #f2ffff 0%,
+            #c9f7ff 35%,
+            #7ad7ff 70%,
+            #2b7db5 100%
+        ) !important;
+
+    border: 2px solid #ffffff !important;
+
+    box-shadow:
+        0 0 10px rgba(180,240,255,0.6),
+        0 0 18px rgba(120,220,255,0.35),
+        inset 0 2px 3px rgba(255,255,255,0.28);
+}
+
+/* 💀 POISON */
+.chip.poison {
+    background:
+        linear-gradient(
+            180deg,
+            #d89cff 0%,
+            #a34cff 38%,
+            #6720b5 72%,
+            #2d0d5c 100%
+        ) !important;
+
+    border: 2px solid #efc7ff !important;
+
+    box-shadow:
+        0 0 8px rgba(190,90,255,0.5),
+        0 0 18px rgba(120,30,255,0.35),
+        inset 0 2px 3px rgba(255,255,255,0.15);
+}
+
+/* 🛡 METAL */
+.chip.metal {
+    background:
+        linear-gradient(
+            180deg,
+            #f0f3f7 0%,
+            #b8c2cf 38%,
+            #79879a 70%,
+            #394555 100%
+        ) !important;
+
+    border: 2px solid #ffffff !important;
+
+    box-shadow:
+        0 0 8px rgba(220,230,255,0.35),
+        0 0 18px rgba(120,140,180,0.25),
+        inset 0 2px 3px rgba(255,255,255,0.35);
 }
 
 #trash-slot {
