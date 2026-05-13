@@ -1,5 +1,5 @@
 
-# 📟 Archive.EXE | PET v3.0
+# 📟 Archive.EXE | PET v4.0
 
 **Personal Terminal (PET)** is a cyber-styled, decentralized note-taking interface inspired by the _MegaMan Battle Network_ series. It transforms your notes into "Battle Chips," using a private GitHub repository as your persistent, encrypted-on-the-fly storage vault.
 
@@ -13,17 +13,17 @@
     
 -   **Jack-In Authentication**: Securely connect using your GitHub Personal Access Token (PAT).
     
--   **Search System**: Quickly filter through your Chip Deck to find specific logs by title or content.
+-   **Search System**: Quickly filter through your Chip Deck to find specific logs.
     
 -   **Themed Interactions**:
     
     -   **Upload Data**: Sync your logs directly to the cloud.
         
-    -   **Trash Slot**: Drag and drop chips into the bin to delete them with a "corruption" animation.
+    -   **Trash Slot**: Drag and drop chips to delete them with a "corruption" animation.
         
-    -   **Sound Effects**: 8-bit oscillator-based audio feedback for saving, selecting, and deleting.
+    -   **Sound Effects**: 8-bit oscillator-based audio feedback.
         
--   **Security & Logout**: Instantly terminate the session and clear local credentials using the emergency logout.
+-   **Security**: Instantly terminate the session and clear local credentials using the emergency logout.
     
 
 ----------
@@ -31,8 +31,6 @@
 ## 🚀 Getting Started
 
 ### 1. Prerequisites
-
-You need a GitHub account and a repository to act as your "Vault."
 
 1.  Create a **Private** repository on GitHub (e.g., `my-vault`).
     
@@ -50,16 +48,14 @@ You need a GitHub account and a repository to act as your "Vault."
     
     ```
     
-2.  Open `index.html` in your browser.
+2.  Open `index.html` in any modern web browser.
     
 
 ### 3. Connection (Jacking In)
 
--   When prompted by the **Modal**, enter your **GitHub Token** and the path to your repository (`username/repo-name`).
+-   Enter your **GitHub Token** and the path (`username/repo-name`) in the login modal.
     
--   Click **INITIALIZE**.
-    
--   The terminal will attempt to "Jack In" and fetch `vault.json`.
+-   Click **INITIALIZE** to fetch your `vault.json`.
     
 
 ----------
@@ -68,19 +64,29 @@ You need a GitHub account and a repository to act as your "Vault."
 
 ### **The Header**
 
--   **🔴 Logout Button**: Located at the top left (the red circle before the PET logo). Clicking this will wipe your local session and return you to the login screen.
+-   🔴 **Logout**: The red circle wipes your local session immediately.
     
--   **Status Light**: Indicates if you are currently `ONLINE` (linked to GitHub) or `OFFLINE`.
+-   **Status Light**: Indicates if you are `ONLINE` (linked) or `OFFLINE`.
     
 
 ### **The Chip Deck**
 
--   **Search Bar**: Use the search input to filter your chips in real-time. Only chips matching your query will remain visible in the deck.
+-   **Search Bar**: Filters chips in real-time.
     
 -   **+ NEW LOG**: Creates a fresh data entry.
     
--   **DRAG TO TRASH**: To delete a chip, drag it toward the bottom-right trash slot until it glows red, then drop.
+-   **DRAG TO TRASH**: Drag a chip to the bottom-right slot until it glows red to delete.
     
+
+### **⌨️ Keyboard Shortcuts (Advanced)**
+
+The PET interface supports terminal-style shortcuts for data formatting:
+
+**Shortcut** - `Ctrl + Shift + Y`
+
+**Action** - **2-Column Split**
+
+**Description** - Quickly formats highlighted text into a two-column grid separated by `:`.
 
 ----------
 
@@ -92,16 +98,16 @@ You need a GitHub account and a repository to act as your "Vault."
     
 -   **Audio**: Web Audio API (Live-generated square waves).
     
--   **Encoding**: Robust UTF-8 Base64 encoding to ensure special characters and emojis in your notes don't break the JSON sync.
+-   **Encoding**: Robust UTF-8 Base64 encoding for emoji and special character support.
     
 
 ----------
 
 ## 🛠️ Configuration
 
-If you need to change your vault settings without logging out, click the **CONFIG** button in the footer to modify your Token or Repository path.
+Need to update your credentials? Click the **CONFIG** button in the footer to modify your Token or Repository path without jacking out.
 
-> **Privacy Warning:** Your token is stored locally in `localStorage`. Ensure you are using a trusted machine, or use the **Red Logout Circle** to clear your credentials after your session.
+> **Privacy Warning:** Your token is stored in `localStorage`. Always use the **Red Logout Circle** to wipe credentials if using a shared machine.
 
 ----------
 

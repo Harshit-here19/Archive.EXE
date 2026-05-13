@@ -6,6 +6,7 @@ const statusLight = document.getElementById('status-light');
 const syncStatus = document.getElementById('sync-status');
 const chipContainer = document.getElementById('chip-container');
 const searchInput = document.getElementById("chip-search");
+const jackModal = document.getElementById("jack-modal");
 
 let searchTerm = "";
 
@@ -44,6 +45,8 @@ const CHIP_ICONS = [
 if (!GITHUB_TOKEN) {
     modal.classList.remove('hidden');
 } else {
+    jackModal.classList.remove("hidden");
+
     loadData();
 }
 
@@ -118,10 +121,19 @@ async function loadData() {
         renderChips();
         statusLight.className = "online";
         syncStatus.innerText = "LINK ESTABLISHED";
+
+        setTimeout(() => {
+            jackModal.classList.add("hidden");
+        }, 2000);
+
     } catch (e) {
         console.error(e);
         syncStatus.innerText = "NO DATA FOUND";
         statusLight.className = "offline";
+
+        setTimeout(() => {
+            jackModal.classList.add("hidden");
+        }, 5000);
     }
 }
 
@@ -245,9 +257,14 @@ function renderChips() {
 <div class="chip-bottom"></div>
 `;
 
+    newBtn.style.background = '#c89820'
+
     newBtn.onclick = () => {
         activeId = null;
         editor.innerHTML = "";
+
+        updatePlaceholder();
+
         requestAnimationFrame(() => renderChips());
     };
 
@@ -360,6 +377,9 @@ function renderChips() {
             activeId = note.id;
             playSound("select");
             editor.innerHTML = note.body || "";
+
+            // 🔥 update placeholder state
+            updatePlaceholder();
 
             // remove previous locks
             document.querySelectorAll(".chip.locked")
@@ -776,3 +796,179 @@ editor.addEventListener("drop", async (e) => {
     const base64 = await fileToBase64(file);
     insertImageIntoEditor(base64);
 });
+
+const ideas = [
+    `JACK IN! ENTER DATA...
+
+[Shortcut: Ctrl + Shift + Y]
+Convert Key : Value → ASCII Table`,
+
+    `TIP:
+Paste images directly into the editor
+They will embed inside logs`,
+
+    `FEATURE:
+Drag & drop chips into trash
+to delete logs instantly`,
+
+    `SYSTEM:
+All logs are synced to GitHub Vault
+Auto-save enabled`,
+
+    `MODE:
+Select text → Press shortcut
+→ Instant table transformation`,
+
+    `HINT:
+Use structured input like:
+Name: Value
+IFSC: Code`
+];
+
+let ideaIndex = 0;
+let charIndex = 0;
+let deleting = false;
+let currentText = "";
+
+let placeholderRunning = false;
+const TYPE_SPEED = 30;
+const DELETE_SPEED = 28;
+
+const PAUSE_AFTER_TYPING = 2200;
+const PAUSE_AFTER_DELETING = 500;
+
+const CURSOR = " █";
+
+function terminalPlaceholderLoop() {
+
+    // prevent multiple loops
+    if (placeholderRunning) return;
+
+    placeholderRunning = true;
+
+    function loop() {
+
+        // stop if user typed
+        if (editor.classList.contains("has-content")) {
+            placeholderRunning = false;
+            return;
+        }
+
+        const fullText = ideas[ideaIndex];
+
+        // ----------------------------
+        // TYPING
+        // ----------------------------
+        if (!deleting) {
+
+            currentText = fullText.slice(0, charIndex);
+
+            editor.setAttribute(
+                "data-placeholder",
+                currentText + CURSOR
+            );
+
+            charIndex++;
+
+            // fully typed
+            if (charIndex > fullText.length) {
+
+                deleting = true;
+
+                // 🔥 REAL PAUSE
+                setTimeout(loop, PAUSE_AFTER_TYPING);
+
+                return;
+            }
+
+            setTimeout(loop, TYPE_SPEED);
+
+            return;
+        }
+
+        // ----------------------------
+        // DELETING
+        // ----------------------------
+        currentText = fullText.slice(0, charIndex);
+
+        editor.setAttribute(
+            "data-placeholder",
+            currentText + CURSOR
+        );
+
+        charIndex--;
+
+        // fully deleted
+        if (charIndex < 0) {
+
+            deleting = false;
+
+            ideaIndex =
+                (ideaIndex + 1) % ideas.length;
+
+            charIndex = 0;
+
+            setTimeout(loop, PAUSE_AFTER_DELETING);
+
+            return;
+        }
+
+        setTimeout(loop, DELETE_SPEED);
+    }
+
+    loop();
+}
+
+function isReallyEmpty(el) {
+
+    const clone = el.cloneNode(true);
+
+    // remove common junk nodes
+    clone.querySelectorAll("br").forEach(n => n.remove());
+
+    const text = clone.textContent
+        .replace(/\u200B/g, "") // zero-width space
+        .replace(/\n/g, "")
+        .trim();
+
+    return text.length === 0;
+}
+
+function updatePlaceholder() {
+
+    const text = editor.textContent
+        .replace(/\u200B/g, "")
+        .trim();
+
+    const hasContent = text.length > 0;
+
+    editor.classList.toggle(
+        "has-content",
+        hasContent
+    );
+
+    // restart animation if editor emptied
+    if (!hasContent && !placeholderRunning) {
+        terminalPlaceholderLoop();
+    }
+}
+
+editor.addEventListener("input", updatePlaceholder);
+
+editor.addEventListener("paste", () => {
+    setTimeout(updatePlaceholder, 0);
+});
+
+updatePlaceholder();
+
+// initial start
+terminalPlaceholderLoop();
+
+["input", "keyup", "paste", "cut", "drop"].forEach(evt => {
+    editor.addEventListener(evt, () => {
+        setTimeout(updatePlaceholder, 0);
+    });
+});
+
+// initial check
+updatePlaceholder();
