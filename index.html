@@ -43,6 +43,21 @@
             <input type="password" id="gh-token" placeholder="GitHub PAT...">
             <input type="text" id="gh-repo" placeholder="username/repo-name">
             <button id="setup-confirm">INITIALIZE</button>
+            <button id="setup-guest">LOCAL</button>
+        </div>
+    </div>
+
+    <div id="local-modal" class="hidden">
+        <div class="modal-content">
+            <h3>LOCAL VAULT</h3>
+
+            <input type="text" id="local-user" placeholder="Vault Name">
+
+            <input type="password" id="local-pass" placeholder="Password">
+
+            <button id="local-login">
+                ACCESS VAULT
+            </button>
         </div>
     </div>
 
@@ -94,6 +109,7 @@
 
     </div>
 
+    <script src="local.js"></script>
     <script src="script.js"></script>
     <script src="tableShortcut.js"></script>
 </body>

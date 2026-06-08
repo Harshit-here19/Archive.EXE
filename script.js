@@ -20,9 +20,13 @@ searchInput.addEventListener("input", (e) => {
 
 let GITHUB_TOKEN = localStorage.getItem('pet_token');
 let GITHUB_REPO = localStorage.getItem('pet_repo');
+
 let FILE_SHA = null;
 let allNotes = [];
 let activeId = null; // Tracks if we are editing an existing chip
+
+let STORAGE_MODE =
+    localStorage.getItem("pet_storage_mode") || null;
 
 let draggedChip = null;
 
@@ -42,15 +46,62 @@ const CHIP_ICONS = [
 
 
 // Initialize
-if (!GITHUB_TOKEN) {
-    modal.classList.remove('hidden');
+if (!STORAGE_MODE) {
+
+    // localStorage.setItem("pet_storage_mode", "local");
+    // STORAGE_MODE = "local";
+
+    modal.classList.remove("hidden");
+    jackModal.classList.add("hidden");
+
+    // const jackText = document.getElementsByClassName("jack-text")[0];
+
+    // // 1. Immediate Action: Show failure message
+    // jackText.innerText = "No storage Mode Found";
+
+    // // 2. After 1 second: Show that it's setting the default mode
+    // setTimeout(() => {
+    //     jackText.innerText = "Setting default mode: LOCAL";
+
+    //     // 3. After another 1 second (2 seconds total): Show done message and hide modal
+    //     setTimeout(() => {
+    //         jackText.innerText = "Done opening the PET";
+
+    //         // so the user can actually read "Done opening the POET" before it vanishes.
+    //         setTimeout(() => {
+    //             jackModal.classList.add("hidden");
+    //         }, 1000);
+
+    //     }, 1000);
+
+    // }, 1000);
+
 } else {
+
     jackModal.classList.remove("hidden");
 
-    loadData();
+    if (STORAGE_MODE === "github") {
+        loadData();
+    } else {
+        loadLocalVault();
+    }
 }
 
 async function syncToGitHub() {
+
+    if (
+        STORAGE_MODE === "local"
+    ) {
+
+        await saveLocalData(
+            allNotes
+        );
+
+        syncStatus.innerText =
+            "LOCAL SAVE OK";
+
+        return;
+    }
 
     syncStatus.innerText = "UPLOADING...";
 
@@ -90,8 +141,39 @@ async function syncToGitHub() {
 configBtn.addEventListener('click', () => modal.classList.toggle('hidden'));
 
 document.getElementById('setup-confirm').addEventListener('click', () => {
+    localStorage.setItem('pet_storage_mode', 'github')
     localStorage.setItem('pet_token', document.getElementById('gh-token').value);
     localStorage.setItem('pet_repo', document.getElementById('gh-repo').value);
+    location.reload();
+});
+
+document.getElementById('setup-guest').addEventListener('click', async () => {
+    localStorage.setItem(
+        "pet_storage_mode",
+        "local"
+    );
+
+    const username =
+        document.getElementById("gh-repo").value.trim();
+
+    const password =
+        document.getElementById("gh-token").value;
+
+    if (!username || !password)
+        return;
+
+    const result = await loginLocal(
+        username,
+        password
+    );
+
+    if (!result.success) {
+        alert("INVALID PASSWORD");
+        return;
+    }
+
+    await loadLocalVault();
+
     location.reload();
 });
 
@@ -134,6 +216,45 @@ async function loadData() {
         setTimeout(() => {
             jackModal.classList.add("hidden");
         }, 5000);
+    }
+}
+
+// --- LOCAL VAULT ---
+async function loadLocalVault() {
+
+    syncStatus.innerText =
+        "OPENING LOCAL VAULT...";
+
+    try {
+
+        allNotes =
+            await loadLocalData();
+
+        renderChips();
+
+        statusLight.className =
+            "online";
+
+        syncStatus.innerText =
+            "LOCAL VAULT READY";
+
+        setTimeout(() => {
+
+            jackModal
+                .classList
+                .add("hidden");
+
+        }, 1000);
+
+    } catch (e) {
+
+        console.error(e);
+
+        syncStatus.innerText =
+            "LOCAL VAULT ERROR";
+
+        statusLight.className =
+            "offline";
     }
 }
 
@@ -427,6 +548,25 @@ saveBtn.addEventListener('click', async () => {
     }
 
     try {
+
+        if (
+            STORAGE_MODE === "local"
+        ) {
+
+            await saveLocalData(
+                allNotes
+            );
+
+            syncStatus.innerText =
+                "LOCAL SAVE OK";
+
+            renderChips();
+
+            playSound("save");
+
+            return;
+        }
+
         // Robust UTF-8 Encoding
         const content = btoa(unescape(encodeURIComponent(JSON.stringify({ notes: allNotes }))));
 
@@ -624,11 +764,34 @@ document.getElementById("logout-btn").onclick = async () => {
 
     if (!ok) return;
 
-    localStorage.removeItem("pet_token");
-    localStorage.removeItem("pet_repo");
+    if (
+        STORAGE_MODE === "github"
+    ) {
+
+        localStorage.removeItem(
+            "pet_token"
+        );
+
+        localStorage.removeItem(
+            "pet_repo"
+        );
+
+    } else {
+
+        logoutLocal();
+    }
+
+    localStorage.removeItem(
+        "pet_storage_mode"
+    );
 
     // console.log(localStorage.getItem("pet_token"))
     // console.log(localStorage.getItem("pet_repo"))
+
+    localStorage.setItem(
+        "pet_storage_mode",
+        "github"
+    );
 
     location.reload();
 };
@@ -972,3 +1135,46 @@ terminalPlaceholderLoop();
 
 // initial check
 updatePlaceholder();
+
+(async () => {
+
+    if (
+        localStorage.getItem(
+            "pet_storage_mode"
+        ) !== "local"
+    ) return;
+
+    const username =
+        localStorage.getItem(
+            "pet_local_user"
+        );
+
+    const pass =
+        localStorage.getItem(
+            "pet_local_pass"
+        );
+
+    if (!username || !pass)
+        return;
+
+    try {
+
+        const vault =
+            await getVault(
+                username
+            );
+
+        if (
+            vault &&
+            vault.passwordHash === pass
+        ) {
+
+            loadLocalVault();
+        }
+
+    } catch (e) {
+
+        console.error(e);
+    }
+
+})();

@@ -138,13 +138,15 @@
 
             if (!text) {
                 console.log("No text selected");
+                alert("No Text Selected!!")
                 return;
             }
 
             const rows = parseSelection(text);
 
             if (!rows.length) {
-                console.log("Invalid format");
+                // console.log("Invalid format");
+                alert("Invalid Format!")
                 return;
             }
 
